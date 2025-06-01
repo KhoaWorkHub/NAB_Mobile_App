@@ -16,7 +16,9 @@ class ErrorBoundary extends React.Component {
 
   componentDidCatch(error, errorInfo) {
     console.error('Error caught by boundary:', error, errorInfo);
-  
+    
+    // In a real app, you might want to log this to an error reporting service
+    // logErrorToService(error, errorInfo);
   }
 
   render() {
@@ -50,7 +52,7 @@ class ErrorBoundary extends React.Component {
   }
 }
 
-// Performance monitoring
+// Performance monitoring (basic)
 const observePerformance = () => {
   // Observe Largest Contentful Paint
   if ('PerformanceObserver' in window) {
@@ -67,19 +69,6 @@ const observePerformance = () => {
     } catch {
       // Silently fail if PerformanceObserver is not supported
     }
-  }
-
-  // Monitor Core Web Vitals
-  if ('web-vitals' in window) {
-    import('web-vitals').then(({ getCLS, getFID, getFCP, getLCP, getTTFB }) => {
-      getCLS(console.log);
-      getFID(console.log);
-      getFCP(console.log);
-      getLCP(console.log);
-      getTTFB(console.log);
-    }).catch(() => {
-      // Silently fail if web-vitals is not available
-    });
   }
 };
 
@@ -114,16 +103,20 @@ const initializeApp = () => {
     } else {
       document.documentElement.classList.remove('dark');
     }
-  } catch {
+  } catch  {
     // Fallback to light mode if there's an error reading localStorage
     document.documentElement.classList.remove('dark');
   }
 
   // Apply saved language
-  const savedLang = localStorage.getItem('nab-language');
-  if (savedLang) {
-    document.documentElement.lang = savedLang;
-  } else {
+  try {
+    const savedLang = localStorage.getItem('nab-language');
+    if (savedLang) {
+      document.documentElement.lang = savedLang;
+    } else {
+      document.documentElement.lang = 'en';
+    }
+  } catch {
     document.documentElement.lang = 'en';
   }
 };
