@@ -133,7 +133,7 @@ const Header = () => {
                         setLang(lang.code);
                         setIsLangMenuOpen(false);
                       }}
-                      className={`block w-full text-left px-4 py-3 text-sm hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors flex items-center space-x-3 ${
+                      className={`block w-full text-left px-4 py-3 text-sm hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors items-center space-x-3 ${
                         language === lang.code 
                           ? 'text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 font-medium' 
                           : 'text-gray-700 dark:text-gray-300'
