@@ -13,13 +13,14 @@ import {
 } from 'lucide-react';
 import { useI18n } from '../contexts/i18nContext';
 
-const ProductCard = ({ product, onContactSeller, onToggleWishlist, isWishlisted = false }) => {
+const ProductCard = ({ product, onContactSeller, onToggleWishlist, isWishlisted = false, onProductClick }) => {
   const { t } = useI18n();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [imageError, setImageError] = useState(false);
   const [imageLoading, setImageLoading] = useState(true);
 
-  const handleContactSeller = () => {
+  const handleContactSeller = (e) => {
+    e.stopPropagation();
     const teamsUrl = `https://teams.microsoft.com/l/chat/0/0?users=${product.seller.teamsId}`;
     window.open(teamsUrl, '_blank');
     if (onContactSeller) {
@@ -65,7 +66,10 @@ const ProductCard = ({ product, onContactSeller, onToggleWishlist, isWishlisted 
   };
 
   return (
-    <div className="group bg-white dark:bg-slate-800 rounded-2xl shadow-sm hover:shadow-xl dark:shadow-slate-900/20 transition-all duration-300 overflow-hidden border border-gray-200 dark:border-slate-700 hover:border-red-200 dark:hover:border-red-800/50 transform hover:-translate-y-1">
+    <div 
+      className="group bg-white dark:bg-slate-800 rounded-2xl shadow-sm hover:shadow-xl dark:shadow-slate-900/20 transition-all duration-300 overflow-hidden border border-gray-200 dark:border-slate-700 hover:border-red-200 dark:hover:border-red-800/50 transform hover:-translate-y-1 cursor-pointer"
+      onClick={() => onProductClick && onProductClick(product)}
+    >
       
       {/* Image section */}
       <div className="relative overflow-hidden">
@@ -101,7 +105,10 @@ const ProductCard = ({ product, onContactSeller, onToggleWishlist, isWishlisted 
             {product.images.map((_, index) => (
               <button
                 key={index}
-                onClick={() => setCurrentImageIndex(index)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setCurrentImageIndex(index);
+                }}
                 className={`w-2 h-2 rounded-full transition-all duration-200 ${
                   index === currentImageIndex 
                     ? 'bg-white w-6' 
@@ -125,7 +132,10 @@ const ProductCard = ({ product, onContactSeller, onToggleWishlist, isWishlisted 
         {/* Action buttons */}
         <div className="absolute top-3 right-3 flex flex-col space-y-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
           <button
-            onClick={() => onToggleWishlist && onToggleWishlist(product.id)}
+            onClick={(e) => {
+              e.stopPropagation();
+              onToggleWishlist && onToggleWishlist(product.id);
+            }}
             className={`p-2.5 rounded-full backdrop-blur-md transition-all duration-200 shadow-lg hover:scale-110 ${
               isWishlisted 
                 ? 'bg-red-600 text-white shadow-red-500/25' 
@@ -135,7 +145,10 @@ const ProductCard = ({ product, onContactSeller, onToggleWishlist, isWishlisted 
             <Heart className={`h-4 w-4 ${isWishlisted ? 'fill-current' : ''}`} />
           </button>
           
-          <button className="p-2.5 rounded-full bg-white/90 dark:bg-slate-800/90 text-gray-700 dark:text-gray-300 hover:bg-white dark:hover:bg-slate-800 backdrop-blur-md transition-all duration-200 shadow-lg hover:scale-110">
+          <button 
+            onClick={(e) => e.stopPropagation()}
+            className="p-2.5 rounded-full bg-white/90 dark:bg-slate-800/90 text-gray-700 dark:text-gray-300 hover:bg-white dark:hover:bg-slate-800 backdrop-blur-md transition-all duration-200 shadow-lg hover:scale-110"
+          >
             <Share2 className="h-4 w-4" />
           </button>
         </div>
@@ -234,18 +247,26 @@ const ProductCard = ({ product, onContactSeller, onToggleWishlist, isWishlisted 
         )}
 
         {/* Actions */}
-        <div className="flex space-x-3">
+        <div className="flex flex-col sm:flex-row gap-3 sm:space-x-3 sm:gap-0">
           <button
             onClick={handleContactSeller}
-            className="flex-1 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white py-3 px-4 rounded-xl flex items-center justify-center space-x-2 transition-all duration-200 font-semibold shadow-lg hover:shadow-xl transform hover:scale-[1.02] active:scale-[0.98]"
+            className="flex-1 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white py-3 px-4 rounded-xl flex items-center justify-center space-x-2 transition-all duration-200 font-semibold shadow-lg hover:shadow-xl transform hover:scale-[1.02] active:scale-[0.98] min-h-[44px]"
           >
             <MessageCircle className="h-4 w-4" />
-            <span>{t('contactSeller')}</span>
+            <span className="hidden sm:inline">{t('contactSeller')}</span>
+            <span className="sm:hidden">{t('contact')}</span>
             <ExternalLink className="h-3 w-3" />
           </button>
           
-          <button className="px-4 py-3 border border-gray-300 dark:border-slate-600 text-gray-700 dark:text-gray-300 rounded-xl hover:bg-gray-50 dark:hover:bg-slate-700 hover:border-red-300 dark:hover:border-red-700 transition-all duration-200 font-medium">
-            Details
+          <button 
+            className="px-4 py-3 border border-gray-300 dark:border-slate-600 text-gray-700 dark:text-gray-300 rounded-xl hover:bg-gray-50 dark:hover:bg-slate-700 hover:border-red-300 dark:hover:border-red-700 transition-all duration-200 font-medium min-h-[44px] sm:w-auto w-20"
+            onClick={(e) => {
+              e.stopPropagation();
+              onProductClick && onProductClick(product);
+            }}
+          >
+            <span className="hidden sm:inline">Details</span>
+            <span className="sm:hidden">View</span>
           </button>
         </div>
 
