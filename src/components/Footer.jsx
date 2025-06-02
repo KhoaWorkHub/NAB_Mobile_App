@@ -9,47 +9,62 @@ import {
   MapPin,
   Shield,
   HelpCircle,
-  ExternalLink
+  ExternalLink,
 } from 'lucide-react';
 import { useI18n } from '../contexts/i18nContext';
 
-const Footer = () => {
+const Footer = ({ onNavigate, currentPage, user }) => {
   const { t } = useI18n();
+
+  const mobileNavItems = [
+    { id: 'home', icon: Home, label: t('home') },
+    { id: 'search', icon: Search, label: t('search') },
+    ...(user?.userType === 'seller' ? [
+      { id: 'seller', icon: Plus, label: t('sell'), isSpecial: true }
+    ] : [
+      { id: 'create', icon: Plus, label: t('create'), isSpecial: true }
+    ]),
+    { id: 'wishlist', icon: Heart, label: t('wishlist'), badge: 5 },
+    { id: 'profile', icon: User, label: t('profile') }
+  ];
 
   return (
     <>
       {/* Mobile bottom navigation */}
       <div className="md:hidden fixed bottom-0 left-0 right-0 bg-black border-t border-gray-800 z-40 safe-bottom">
         <div className="grid grid-cols-5 h-16">
-          <button className="flex flex-col items-center justify-center space-y-1 text-red-400 bg-gray-900 relative">
-            <Home className="h-5 w-5" />
-            <span className="text-xs font-medium">{t('home')}</span>
-            <div className="absolute top-1 left-1/2 transform -translate-x-1/2 w-4 h-0.5 bg-red-500 rounded-full" />
-          </button>
-          
-          <button className="flex flex-col items-center justify-center space-y-1 text-gray-400 hover:text-gray-200 transition-colors">
-            <Search className="h-5 w-5" />
-            <span className="text-xs">Search</span>
-          </button>
-          
-          <button className="flex flex-col items-center justify-center space-y-1 relative">
-            <div className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 p-3 rounded-full text-white transition-all shadow-lg hover:shadow-xl transform hover:scale-105">
-              <Plus className="h-6 w-6" />
-            </div>
-          </button>
-          
-          <button className="flex flex-col items-center justify-center space-y-1 text-gray-400 hover:text-gray-200 transition-colors relative">
-            <Heart className="h-5 w-5" />
-            <span className="text-xs">{t('wishlist')}</span>
-            <span className="absolute -top-1 right-2 h-4 w-4 bg-red-500 text-white rounded-full text-xs flex items-center justify-center font-medium">
-              5
-            </span>
-          </button>
-          
-          <button className="flex flex-col items-center justify-center space-y-1 text-gray-400 hover:text-gray-200 transition-colors">
-            <User className="h-5 w-5" />
-            <span className="text-xs">{t('profile')}</span>
-          </button>
+          {mobileNavItems.map((item) => (
+            <button
+              key={item.id}
+              onClick={() => onNavigate(item.id)}
+              className={`flex flex-col items-center justify-center space-y-1 relative transition-all duration-200 ${
+                currentPage === item.id
+                  ? 'text-red-400 bg-gray-900'
+                  : item.isSpecial
+                    ? 'text-white'
+                    : 'text-gray-400 hover:text-gray-200'
+              }`}
+            >
+              {item.isSpecial ? (
+                <div className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 p-3 rounded-full text-white transition-all shadow-lg hover:shadow-xl transform hover:scale-105">
+                  <item.icon className="h-6 w-6" />
+                </div>
+              ) : (
+                <>
+                  <item.icon className="h-5 w-5" />
+                  <span className="text-xs font-medium">{item.label}</span>
+                  {currentPage === item.id && (
+                    <div className="absolute top-1 left-1/2 transform -translate-x-1/2 w-4 h-0.5 bg-red-500 rounded-full" />
+                  )}
+                  {item.badge && (
+                    <span className="absolute -top-1 right-2 h-4 w-4 bg-red-500 text-white rounded-full text-xs flex items-center justify-center font-medium">
+                      {item.badge}
+                    </span>
+                  )}
+                </>
+              )}
+            </button>
+          ))}
         </div>
       </div>
 
@@ -109,34 +124,51 @@ const Footer = () => {
                 </h4>
                 <ul className="space-y-4">
                   <li>
-                    <a href="#" className="text-gray-300 hover:text-white transition-colors flex items-center group">
+                    <button 
+                      onClick={() => onNavigate('home')}
+                      className="text-gray-300 hover:text-white transition-colors flex items-center group"
+                    >
+                      <span>{t('home')}</span>
+                      <ExternalLink className="h-3 w-3 ml-2 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    </button>
+                  </li>
+                  <li>
+                    <button 
+                      onClick={() => onNavigate('categories')}
+                      className="text-gray-300 hover:text-white transition-colors flex items-center group"
+                    >
                       <span>{t('categories')}</span>
                       <ExternalLink className="h-3 w-3 ml-2 opacity-0 group-hover:opacity-100 transition-opacity" />
-                    </a>
+                    </button>
+                  </li>
+                  {user?.userType === 'seller' && (
+                    <li>
+                      <button 
+                        onClick={() => onNavigate('seller')}
+                        className="text-gray-300 hover:text-white transition-colors flex items-center group"
+                      >
+                        <span>{t('sellerDashboard')}</span>
+                        <ExternalLink className="h-3 w-3 ml-2 opacity-0 group-hover:opacity-100 transition-opacity" />
+                      </button>
+                    </li>
+                  )}
+                  <li>
+                    <button 
+                      onClick={() => onNavigate('wishlist')}
+                      className="text-gray-300 hover:text-white transition-colors flex items-center group"
+                    >
+                      <span>{t('wishlist')}</span>
+                      <ExternalLink className="h-3 w-3 ml-2 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    </button>
                   </li>
                   <li>
-                    <a href="#" className="text-gray-300 hover:text-white transition-colors flex items-center group">
-                      <span>Sell Item</span>
+                    <button 
+                      onClick={() => onNavigate('profile')}
+                      className="text-gray-300 hover:text-white transition-colors flex items-center group"
+                    >
+                      <span>{t('myProfile')}</span>
                       <ExternalLink className="h-3 w-3 ml-2 opacity-0 group-hover:opacity-100 transition-opacity" />
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" className="text-gray-300 hover:text-white transition-colors flex items-center group">
-                      <span>My Listings</span>
-                      <ExternalLink className="h-3 w-3 ml-2 opacity-0 group-hover:opacity-100 transition-opacity" />
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" className="text-gray-300 hover:text-white transition-colors flex items-center group">
-                      <span>Saved Searches</span>
-                      <ExternalLink className="h-3 w-3 ml-2 opacity-0 group-hover:opacity-100 transition-opacity" />
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" className="text-gray-300 hover:text-white transition-colors flex items-center group">
-                      <span>Analytics</span>
-                      <ExternalLink className="h-3 w-3 ml-2 opacity-0 group-hover:opacity-100 transition-opacity" />
-                    </a>
+                    </button>
                   </li>
                 </ul>
               </div>
