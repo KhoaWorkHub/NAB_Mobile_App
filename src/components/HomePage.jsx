@@ -16,7 +16,7 @@ import ProductCard from './ProductCard';
 import Categories from './Categories';
 import FilterSort from './FilterSort';
 
-const HomePage = () => {
+const HomePage = ({ onProductSelect }) => {
   const { t } = useI18n();
   const [products] = useState(mockProducts);
   const [filteredProducts, setFilteredProducts] = useState(mockProducts);
@@ -257,6 +257,7 @@ const HomePage = () => {
                     product={product}
                     onToggleWishlist={handleToggleWishlist}
                     isWishlisted={wishlistedItems.has(product.id)}
+                    onProductClick={() => onProductSelect && onProductSelect(product)}
                   />
                 </div>
               ))}
@@ -309,6 +310,7 @@ const HomePage = () => {
                   product={product}
                   onToggleWishlist={handleToggleWishlist}
                   isWishlisted={wishlistedItems.has(product.id)}
+                  onProductClick={() => onProductSelect && onProductSelect(product)}
                 />
               ))}
             </div>

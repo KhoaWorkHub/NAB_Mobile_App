@@ -15,7 +15,7 @@ import {
   CheckCircle2,
   TrendingDown,
   AlertCircle,
-  Grid3X3,
+  Grid,
   List,
   ArrowUpDown
 } from 'lucide-react';
@@ -224,7 +224,7 @@ const WishlistPage = ({ onNavigate, onProductSelect }) => {
                       : 'bg-white dark:bg-slate-800 text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-slate-700'
                   }`}
                 >
-                  <Grid3X3 className="h-4 w-4" />
+                  <Grid className="h-4 w-4" />
                 </button>
                 <button
                   onClick={() => setViewMode('list')}
