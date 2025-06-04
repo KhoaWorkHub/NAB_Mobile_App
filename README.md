@@ -1,6 +1,3 @@
-# NAB Market 🏪
-
-An internal marketplace for NAB employees to buy and sell items with colleagues. Built with React, Tailwind CSS, and modern web technologies.
 
 ## 🚀 Features
 
@@ -19,7 +16,7 @@ An internal marketplace for NAB employees to buy and sell items with colleagues.
 ## 🛠️ Technologies Used
 
 - **React 19**: Latest React with modern features
-- **Tailwind CSS 4**: Utility-first CSS framework with custom NAB branding
+- **Tailwind CSS 4**: Utility-first CSS framework with 
 - **Vite**: Fast build tool and development server
 - **Lucide React**: Beautiful, customizable icons
 - **Headless UI**: Unstyled, accessible UI components
@@ -34,10 +31,10 @@ This application is designed with mobile users in mind:
 - Optimized images and performance for mobile devices
 - Safe area support for devices with notches
 
-## 🎨 NAB Brand Compliance
+## 🎨 abc Brand Compliance
 
-The design follows NAB's brand guidelines:
-- Official NAB red color palette (#D50000)
+The design follows abc's brand guidelines:
+- Official abc red color palette (#D50000)
 - Consistent typography and spacing
 - Professional, enterprise-grade UI components
 - Accessibility compliance for inclusive design
@@ -47,7 +44,7 @@ The design follows NAB's brand guidelines:
 1. **Clone the repository**
    ```bash
    git clone [repository-url]
-   cd nab-market
+   cd abc-market
    ```
 
 2. **Install dependencies**
@@ -134,14 +131,14 @@ Language preferences are automatically saved and restored on subsequent visits.
 Create a `.env` file in the root directory:
 
 ```env
-VITE_APP_NAME=NAB Market
+VITE_APP_NAME=abc Market
 VITE_MS_TEAMS_BASE_URL=https://teams.microsoft.com
 VITE_API_BASE_URL=http://localhost:3001/api
 ```
 
 ### Tailwind Configuration
 The Tailwind configuration includes:
-- Custom NAB brand colors
+- Custom abc brand colors
 - Mobile-first breakpoints
 - Custom animations and transitions
 - Accessibility utilities
