@@ -192,17 +192,3 @@ The app includes basic performance monitoring:
 3. Test on multiple devices and browsers
 4. Update documentation as needed
 
-## 📄 License
-
-This project is internal to NAB and follows NAB's internal development guidelines.
-
-## 🆘 Support
-
-For technical support or questions:
-- Contact: NAB IT Support ( Tran Dang Khoa)
-- Email: tkhoa7815@gmail.com
-- Teams: NAB Development Team ( Team Người Lào)
-
----
-
-**Note**: This is an internal NAB application. All data is mock data for demonstration purposes. The MS Teams integration requires proper NAB email addresses to function correctly.
